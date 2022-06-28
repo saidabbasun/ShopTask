@@ -11,7 +11,7 @@ const Products = () => {
     const getProducts = async () => {
       setLoading(true);
       const response = await fetch("https://fakestoreapi.com/products");
-      if (mounted) {
+      if (componentMounted) {
         setData(await response.clone().json());
         setFilter(await response.json());
         setLoading(false);
@@ -19,12 +19,12 @@ const Products = () => {
        
       } 
       else {
-        setMounted(false);
+        setComponentMounted(!componentMounted);
       }
     };
     getProducts();
   
-  });
+  }, []);
   const Loading = () => {
     return (
       <>
@@ -81,10 +81,10 @@ const Products = () => {
             Electronic
           </button>
         </div>
-        {filter.map((product) => (
-          
-            
-              <div  className="col-md-3 mb-4">
+        {filter.map((product) => {
+          return (
+            <>
+              <div className="col-md-3 mb-4">
                 <div className="card h-100 text-center p-4  " key={product.id}>
                   <img
                     className="card-img-top"
@@ -105,9 +105,9 @@ const Products = () => {
                   </div>
                 </div>
               </div>
-            
-        
-        ))}
+            </>
+          );
+        })}
       </>
     );
   };

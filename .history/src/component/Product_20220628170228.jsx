@@ -78,7 +78,7 @@ const Product = () => {
            </div>
             </>
         )
-    }                                                  
+    }
   return (
     <div>
 <div className="container py-5">

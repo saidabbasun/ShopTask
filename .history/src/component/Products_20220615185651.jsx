@@ -81,10 +81,10 @@ const Products = () => {
             Electronic
           </button>
         </div>
-        {filter.map((product) => (
-          
-            
-              <div  className="col-md-3 mb-4">
+        {filter.map((product) => {
+          return (
+            <>
+              <div key={id} className="col-md-3 mb-4">
                 <div className="card h-100 text-center p-4  " key={product.id}>
                   <img
                     className="card-img-top"
@@ -105,9 +105,9 @@ const Products = () => {
                   </div>
                 </div>
               </div>
-            
-        
-        ))}
+            </>
+          );
+        })}
       </>
     );
   };

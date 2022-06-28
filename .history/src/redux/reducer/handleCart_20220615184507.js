@@ -10,7 +10,6 @@ const handleCart=(state= cart, action)=>{
             }
             else{
                 const product = action.payload;
-                
                 return [
                     ...state,
                     {
@@ -20,7 +19,7 @@ const handleCart=(state= cart, action)=>{
                 ];
             };
 
-            break;
+            
 
             case "DELITEM":
                 const exist1=state.find((x)=>x.id === product.id)
@@ -32,7 +31,7 @@ const handleCart=(state= cart, action)=>{
                } 
 
                break;
-               
+
             default:
                 return state;
             

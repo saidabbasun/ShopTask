@@ -26,7 +26,7 @@ const Product = () => {
             setProduct(await response.json());
             setLoading(false)
         }
-                          
+  
         getProduct()
     })
     const Loading=()=>{
@@ -71,14 +71,14 @@ const Product = () => {
     ${product.price}
 </h3>
 <p className="lead">{product.description}</p>
-<button className="btn btn-outline-dark px-4 py-2"  onClick={()=> addProduct(product)}>
+<button className="btn btn-outline-dark px-4 py-2" onClick={()=> addProduct(product)}>
     Add to Cart
 </button>
 <NavLink to='/cart' className='btn btn-dark ms-2 px-3'> Go to Cart </NavLink>
            </div>
             </>
         )
-    }                                                  
+    }
   return (
     <div>
 <div className="container py-5">

@@ -81,7 +81,7 @@ const Products = () => {
             Electronic
           </button>
         </div>
-        {filter.map((product) => (
+        {filter.map((product) => ()
           
             
               <div  className="col-md-3 mb-4">
@@ -107,7 +107,7 @@ const Products = () => {
               </div>
             
         
-        ))}
+        })}
       </>
     );
   };
