@@ -15,7 +15,7 @@ const Products = () => {
 
     const itemsCategory = await res.json();
     setCategory(itemsCategory);
-    //asas
+    //
    
   };
   const getProducts = async () => {
