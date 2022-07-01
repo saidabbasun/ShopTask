@@ -1,0 +1,169 @@
+import React, { useEffect, useState } from "react";
+import ReactPaginate from "react-paginate";
+import { NavLink } from "react-router-dom";
+
+import Skeleton from "react-loading-skeleton";
+
+const Products = () => {
+  const [data, setData] = useState([]);
+  const [Category, setCategory] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [filter, setFilter] = useState(data);
+  const [loading, setLoading] = useState(true);
+  const getCategory = async () => {
+    const res = await fetch(`http://localhost:3001/api/category`);
+
+    const itemsCategory = await res.json();
+    setCategory(itemsCategory);
+   
+  };
+  const getProducts = async () => {
+    const res = await fetch(
+      `http://localhost:3001/api/product?&offset=0`
+    );
+
+    const items = await res.json();
+    const total = items.count;
+    setLoading(false);
+    setPageCount(total / 10);
+    setData(items.products);
+    setFilter(items.products);
+  };
+  useEffect(() => {
+  
+   
+
+    getCategory();
+
+    getProducts();
+  }, []);
+ 
+
+
+  
+  const filterProduct = async (category) => {
+    const res = await fetch(
+      `http://localhost:3001/api/product?&category=${category}&offset=0`
+    );
+    const items = await res.json();
+   setFilter(items.products)
+  };
+
+  const handlePageClick =  (data) => {
+    let currentPage = data.selected * 10;
+console.log(currentPage);
+    const commentsFormServer =  fetchComments(currentPage);
+    setData(commentsFormServer.products);
+  };
+
+
+  const Loading = () => {
+    return (
+      <>
+        <div className="col-md-3">
+          <Skeleton height={350} />
+        </div>
+        <div className="col-md-3">
+          <Skeleton height={350} />
+        </div>
+        <div className="col-md-3">
+          <Skeleton height={350} />
+        </div>
+        <div className="col-md-3">
+          <Skeleton height={350} />
+        </div>
+      </>
+    );
+  };
+
+  // const filterProduct = (cat) => {
+  //   const updatedList = data.filter((x) => x.category === cat);
+  //   setFilter(updatedList);
+  // };
+  console.log(data);
+  const ShowProducts = () => {
+    return (
+      <div>
+        <div className="buttons d-flex justify-content-center mb-5 pb-5">
+          <button
+            className="btn btn-outline-dark me-2 p-1"
+            onClick={() => setFilter(data)}
+          >
+            All
+          </button>
+
+          {Category.map((item) => (
+            <button
+              key={item.id}
+              className="btn btn-outline-dark me-2 "
+              onClick={() =>filterProduct( item )}
+            >
+              {item}
+            </button>
+          ))}
+        </div>
+        <div className="row m-2">
+          {filter.map((item) => (
+            <div className="col-md-3 mb-4">
+              <div className="card h-100 text-center p-4  " key={item.id}>
+                <img
+                  className="card-img-top"
+                  src={item.thumbnail}
+                  alt={item.title}
+                  height="250px"
+                />
+                <div className="card-body">
+                  <h5 className="card-title mb-0 ">
+                    {item.title.substring(0, 12)}...
+                  </h5>
+                  <p className="card-text lead fw-bold ">${item.price} </p>
+
+                  <NavLink
+                    to={`/products/${item.id}`}
+                    className="btn btn-warning mb-0"
+                  >
+                    Buy Now
+                  </NavLink>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <ReactPaginate
+          pageCount={pageCount}
+          pageRange={2}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={2}
+          onPageChange={handlePageClick}
+          containerClassName={"pagination justify-content-center"}
+          pageClassName={"page-item"}
+          pageLinkClassName={"page-link"}
+          previousClassName={"page-item"}
+          previousLinkClassName={"page-link"}
+          nextClassName={"page-item"}
+          nextLinkClassName={"page-link"}
+          breakClassName={"page-item"}
+          activeClassName={"active"}
+        />
+      </div>
+    );
+  };
+  return (
+    <div>
+      <div className="container my-5 py-5">
+        <div className="row">
+          <div className="col-12 mb-5">
+            <h1 className="display-6 fw-bolder text-center">Latest Products</h1>
+            <hr />
+          </div>
+        </div>
+        <div className="row justify-content-center">
+          {loading ? <Loading /> : <ShowProducts />}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Products;
